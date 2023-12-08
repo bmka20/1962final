@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const session = await getSession({ req });
   console.log(session.user.id)
   if (!session) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: 'Unauthorized!' });
   }
   
   const userId = session.user.id; 
