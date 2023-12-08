@@ -8,8 +8,13 @@ const todoItemSchema = new mongoose.Schema({
 const diaryEntrySchema = new mongoose.Schema({
   text: { type: String, required: true },
   mood: { type: String, required: true },
-  todos: [todoItemSchema], 
-  date: { type: Date, required: true }
+  todos: [todoItemSchema],
+  date: { type: Date, required: true },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', 
+    required: true,
+  },
 });
 
 export default mongoose.models.DiaryEntry || mongoose.model('DiaryEntry', diaryEntrySchema);

@@ -16,7 +16,9 @@ const DiaryEntriesPage = () => {
   const fetchEntries = async (selectedDate) => {
     setIsLoading(true);
     try {
-      const res = await fetch(`/api/entries?date=${selectedDate.toISOString()}`);
+      const res = await fetch(`/api/entries?date=${selectedDate.toISOString()}`, {
+        credentials: 'include' 
+      });
       if (!res.ok) {
         throw new Error('Failed to fetch entries');
       }

@@ -4,8 +4,9 @@ import Link from 'next/link';
 
 const Navbar = () => {
   const { data: session, status } = useSession();
+  console.log(`current session: ${session}`)
   const isLoggedIn = status === 'authenticated';
-
+  console.log(`current status: ${status}`)
   const router = useRouter()
 
   const handleLogout = async () => {

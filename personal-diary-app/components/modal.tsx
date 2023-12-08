@@ -1,5 +1,6 @@
 import Modal from 'react-modal';
 import { useState, useEffect } from 'react';
+import { getSession } from 'next-auth/react'; 
 import { Tooltip } from 'react-tooltip';
 
 type TodoItem = {
@@ -26,19 +27,33 @@ const DiaryEntryModal = ({ isOpen, onRequestClose, selectedDate }) => {
 
   const handleEntrySubmit = async (e) => {
     e.preventDefault();
+    const validDate = selectedDate instanceof Date && !isNaN(selectedDate);
+    const dateToSave = validDate ? selectedDate.toISOString() : new Date().toISOString();
   
     try {
+      const session = await getSession();
+        if (!session || !session.user) {
+            throw new Error('No user session found');
+        }
+        const userId = session.user.id;
+
         const entryData = {
-          text: entryText,
-          mood,
-          todos,
-          date: selectedDate.toISOString()
+            text: entryText,
+            mood,
+            todos,
+            date: dateToSave,
+            userId
         };
+
+      console.log('Selected Date:', selectedDate);
+      console.log('Date to Save:', dateToSave);
+
 
         const response = await fetch('/api/entries', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(entryData)
+          body: JSON.stringify(entryData),
+          credentials: 'include'
         });
 
         if (!response.ok) {

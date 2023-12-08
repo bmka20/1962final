@@ -6,7 +6,6 @@ import RootLayout from '../components/layout';
 const Home = () => {
   const { data: session, status } = useSession();
   const isLoggedIn = status === 'authenticated';
-  console.log(session);
   return (
     <RootLayout>
       <div className="bg-gradient-to-br from-pink-500 to-purple-600 min-h-screen flex flex-col justify-center py-12">
