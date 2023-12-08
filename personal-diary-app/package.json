@@ -18,7 +18,8 @@
     "react": "^18",
     "react-calendar": "^4.6.1",
     "react-dom": "^18",
-    "react-modal": "^3.16.1"
+    "react-modal": "^3.16.1",
+    "react-tooltip": "^5.25.0"
   },
   "devDependencies": {
     "@types/node": "^20",

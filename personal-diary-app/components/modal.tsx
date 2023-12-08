@@ -1,10 +1,20 @@
 import Modal from 'react-modal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Tooltip } from 'react-tooltip';
 
 type TodoItem = {
   text: string;
   completed: boolean;
 };
+
+const moods = [
+  { emoji: '😊', label: 'Happy', description: 'Feeling good and happy' },
+  { emoji: '😢', label: 'Sad', description: 'Feeling sad or unhappy' },
+  { emoji: '😡', label: 'Angry', description: 'Feeling pissed of or frustrated' },
+  { emoji: '🤔', label: 'Thoughtful', description: 'In a reflective mood. You are a thinker' },
+  { emoji: '😴', label: 'Tired', description: 'Feeling hella tired' },
+  { emoji: '💀', label: 'Dead', description: 'Feeling dead in either a funny way or a emo way' },
+];
 
 
 const DiaryEntryModal = ({ isOpen, onRequestClose, selectedDate }) => {
@@ -45,12 +55,26 @@ const DiaryEntryModal = ({ isOpen, onRequestClose, selectedDate }) => {
     }
   };
 
+  useEffect(() => {
+    if (!isOpen) {
+      setEntryText('');
+      setMood('');
+      setTodos([]);
+      setTodoText('');
+      setCurrentStep(1);
+    }
+  }, [isOpen]);
+
   const handleNextStep = () => {
     if (currentStep < 3) setCurrentStep(currentStep + 1);
   };
 
   const handlePrevStep = () => {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
+  };
+
+  const handleSelectMood = (selectedMood) => {
+    setMood(selectedMood);
   };
 
   const handleAddTodo = () => {
@@ -60,14 +84,6 @@ const DiaryEntryModal = ({ isOpen, onRequestClose, selectedDate }) => {
 
   const handleTodoTextChange = (e) => {
     setTodoText(e.target.value);
-  };
-
-  const selectMood = (selectedMood) => {
-    setMood(selectedMood);
-  };
-
-  const isMoodSelected = (selectedMood) => {
-    return mood === selectedMood;
   };
 
   return (
@@ -94,23 +110,21 @@ const DiaryEntryModal = ({ isOpen, onRequestClose, selectedDate }) => {
         {currentStep === 2 && (
           <div className="text-center">
             <h3 className="text-xl font-semibold mb-4">Select Your Mood</h3>
-            <div className="flex justify-center space-x-4">
-            <button
-                type="button"
-                onClick={() => selectMood('😊')}
-                className={`px-2 py-1 rounded-md ${isMoodSelected('😊') ? 'bg-purple-300' : 'bg-gray-200'} hover:bg-purple-200`}
-              >
-                😊
-              </button>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 justify-items-center">
+            {moods.map(({ emoji, label, description }) => (
               <button
+                key={label}
                 type="button"
-                onClick={() => selectMood('😢')}
-                className={`px-2 py-1 rounded-md ${isMoodSelected('😢') ? 'bg-purple-300' : 'bg-gray-200'} hover:bg-purple-200`}
+                onClick={() => handleSelectMood(label)}
+                className={`px-4 py-2 rounded-lg ${mood === label ? 'bg-purple-300' : 'bg-gray-200'} hover:bg-purple-200`}
+                data-tooltip-id="mood-tooltip"
+                data-tooltip-content={description}
               >
-                😢 
+                <span className="text-2xl">{emoji}</span>
               </button>
-              {/* More moods */}
+            ))}
             </div>
+            <Tooltip id="mood-tooltip" />
             <div className="flex justify-between mt-6">
               <button
                 type="button"
