@@ -47,7 +47,7 @@ const Home = () => {
 
             <div className="bg-white bg-opacity-20 p-6 rounded-lg shadow-lg">
               <h2 className="text-3xl font-semibold mb-3">Easy to Use</h2>
-              <p className="mb-3">A simple, intuitive interface makes it easy to jot down notes, add photos, and revisit past memories, anytime, anywhere.</p>
+              <p className="mb-3">A simple, intuitive interface makes it easy to jot down notes, record your current mood, write down your goals for the day, and revisit past memories, anytime, anywhere.</p>
             </div>
           </section>
         </div>
